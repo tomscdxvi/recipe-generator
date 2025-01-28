@@ -33,6 +33,39 @@ def create_recipe():
     
     return jsonify({"message": "Recipe created!"}), 201
 
+@app.route("/update_recipe/<int:recipe_id>", methods=["PATCH"])
+def update_recipe(recipe_id):
+    
+    recipe = Recipe.query.get(recipe_id)
+
+    if not recipe:
+        return jsonify({"message": "Recipe not found!"}), 404 #404 Not found
+    
+    data = request.json
+    recipe.name = data.get("firstName", recipe.name)
+    recipe.prep_time = data.get("prepTime", recipe.prep_time)
+    recipe.cook_time = data.get("cookTime", recipe.cook_time)
+    recipe.ingredients = data.get("ingredients", recipe.ingredients)
+    recipe.directions = data.get("directions", recipe.directions)
+    recipe.nutrition_facts = data.get("nutritionFacts", recipe.nutrition_facts)
+
+    db.session.commit()
+
+    return jsonify({"message": "Recipe has been updated!"}), 200
+
+@app.route("/delete_recipe/<int:recipe_id>", methods=["DELETE"])
+def delete_recipe(recipe_id):
+
+    recipe = Recipe.query.get(recipe_id)
+
+    if not recipe:
+        return jsonify({"message": "Recipe not found!"}), 404 #404 Not found
+    
+    db.session.delete(recipe)
+    db.session.commit()
+
+    return jsonify({"message": "Recipe has been deleted!"}), 200
+
 if __name__ == "__main__":
 
     with app.app_context():
