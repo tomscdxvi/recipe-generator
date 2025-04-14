@@ -8,7 +8,7 @@ export default function RecipeGenerator() {
 
   const handleGenerateRecipe = async () => {
     if (!prompt.trim()) {
-      alert("Please enter a prompt.");
+      setError("Please enter a prompt.");
       return;
     }
 
@@ -36,24 +36,24 @@ export default function RecipeGenerator() {
   };
 
   function formatDate(dateString) {
-    const date = new Date(dateString);
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return date.toLocaleDateString('en-US', options);
-}
+      const date = new Date(dateString);
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      return date.toLocaleDateString('en-US', options);
+  }
 
   return (
     <div>
-        <h1 className="text-2xl font-bold mb-4">AI Recipe Generator</h1>
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "12px" }}>
+        <h1 className="text-2xl font-bold mb-4" style={{ color: "#3831ac"}}>AI Recipe Generator</h1>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "12px", }}>
             <textarea
-                style={{ width: "25%", padding: "8px", borderRadius: "8px" }}
+                style={{ width: "25%", padding: "8px", border: "2px solid #3831ac", borderRadius: "8px", color: "#3831ac"}}
                 rows="3"
                 placeholder="Enter a recipe idea..."
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
             />
             <button
-                style={{ height: "50px", border: "1px solid black"  }}
+                style={{ height: "50px", border: "2px solid #3831ac", color: "#3831ac" }}
                 onClick={handleGenerateRecipe}
                 disabled={loading}
             >
@@ -66,7 +66,7 @@ export default function RecipeGenerator() {
         {recipe && (
             <div className="mt-6 p-4 border rounded">
                 <div>
-                    <h3>{recipe.name}</h3>
+                    <h3 style={{color: "#3831ac"}}>{recipe.name}</h3>
                     <span>{formatDate(recipe.createdAt)}</span>
                 </div>
                 <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "24px" }}>
@@ -76,7 +76,7 @@ export default function RecipeGenerator() {
                 <div>
                     <h3>Ingredients:</h3>
                     {recipe.ingredients.map((ingredient, index) => (
-                        <p key={index} style={{ textAlign: "left" }}>
+                        <p key={index} style={{ textAlign: "center" }}>
                             {ingredient}
                         </p>
                     ))}
@@ -84,14 +84,14 @@ export default function RecipeGenerator() {
                 <div>
                     <h3>Directions:</h3>
                     {recipe.directions.map((direction, index) => (
-                        <p key={index} style={{ textAlign: "left" }}>
+                        <p key={index} style={{ textAlign: "center" }}>
                             {direction}
                         </p>
                     ))}
                 </div>
                 <div>
                     <h3>Nutrition Facts:</h3>
-                    <div style={{ textAlign: "left" }}>
+                    <div style={{ textAlign: "center" }}>
                         <p>Calories: {recipe.nutritionFacts.calories}</p>
                         <p>Carbohydrates: {recipe.nutritionFacts.carbohydrates}</p>
                         <p>Fat: {recipe.nutritionFacts.fat}</p>
@@ -100,6 +100,8 @@ export default function RecipeGenerator() {
                 </div>
             </div>
         )}
+
+        {/* <button>Save</button> */}
     </div>
   );
 }

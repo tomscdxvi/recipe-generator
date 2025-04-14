@@ -7,7 +7,7 @@ from groqai import generate_recipe, parse_recipe, save_recipe_to_db
 def get_recipes():
 
     # Queries through all recipes in sql database
-    recipes = Recipe.query.all()
+    recipes = Recipe.query.order_by(Recipe.created_at.desc()).all()
 
     # Map through every object and transform it into json using the to_json method in the Recipe class then reorganize it into a List.
     json_recipes = list(map(lambda x: x.to_json(), recipes))
@@ -99,7 +99,6 @@ def generate_and_store_recipe():
         return jsonify({"message": "Failed to save recipe to the database!"}), 500
 
     return jsonify({"message": "AI-generated recipe saved!", "recipe": saved_recipe.to_json()}), 201
-
 
 if __name__ == "__main__":
 
